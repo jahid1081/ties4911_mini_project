@@ -67,7 +67,38 @@ Confirmed frames: 3
 
 These settings give a good balance between speed and detection quality for a laptop demo.
 
-## Install and run - quick version
+## Easiest way to run
+
+Use the launcher script for your operating system.
+
+### Windows
+
+Double-click this file:
+
+```text
+run_windows.bat
+```
+
+Or run it from PowerShell:
+
+```powershell
+.\run_windows.bat
+```
+
+### macOS or Linux
+
+Open Terminal in the project folder and run:
+
+```bash
+chmod +x run_macos_linux.sh
+./run_macos_linux.sh
+```
+
+The launcher scripts create a virtual environment, install the required packages, and open the VisionTrack desktop GUI.
+
+## Install and run - manual version
+
+Use these steps if you do not want to use the launcher scripts.
 
 ### Step 1 - Install Python
 
