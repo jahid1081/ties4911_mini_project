@@ -37,7 +37,7 @@ Add Python to PATH
 If you use GitHub:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/visiontrack-modern-human-tracking.git
+git clone https://github.com/YOUR_USERNAME/ties4911_mini_project.git
 cd visiontrack-modern-human-tracking
 ```
 
