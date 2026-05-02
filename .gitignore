@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.ruff_cache/
+
+# Model weights
+*.pt
+*.onnx
+*.engine
+
+# Large datasets and outputs
+data/MOT17/
+data/*.zip
+data/*.tar
+data/*.tar.gz
+outputs/
+runs/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
