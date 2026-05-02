@@ -1,47 +1,99 @@
 # VisionTrack - Modern Multi-Person Human Tracking
 
-VisionTrack is a beginner-friendly Python application for real-time human detection and tracking. It uses YOLO-based person detection with OpenCV video processing and can run on a normal laptop.
+VisionTrack is a laptop-friendly Python application for detecting and tracking people in video. It uses YOLO for person detection, OpenCV for video processing, and BoT-SORT or ByteTrack for multi-person tracking.
 
-This project modernizes earlier classical computer vision work on human detection and tracking. The current implementation focuses on practical multi-person tracking from a webcam or a public continuous video dataset such as MOT17.
+The project was built as a modern continuation of earlier human detection and tracking work. Instead of classical computer vision methods, this version uses a modern YOLO-based pipeline that can run on a normal laptop with a webcam or a video file.
 
-## What the app can do
+## What this project does
 
-- Run a continuous webcam tracking stream.
-- Save webcam recordings into timestamped segments, for example every 10 minutes.
-- Run tracking on a selected MOT17 or MP4 video file.
-- Draw bounding boxes, track IDs, movement trails, and direction labels.
-- Save annotated videos, CSV tracking logs, and JSON summaries.
-- Generate simple charts from the tracking logs.
+- Tracks multiple people in a video stream.
+- Works with a normal webcam.
+- Works with MP4 video files, including converted MOT17 sequences.
+- Draws person bounding boxes, track IDs, movement trails, and movement directions.
+- Saves annotated video files.
+- Saves CSV tracking logs.
+- Saves JSON run summaries.
+- Can generate charts from saved tracking logs.
+- Includes a simple desktop GUI for non-programmers.
 
-## What this project does not claim
+## Demo modes
 
-- It does not claim perfect detection.
-- It does not classify walking sticks as separate objects.
-- It tracks people as people. A person using one stick or two sticks should still be tracked if the person detector sees the body.
-- It does not use filtered unrelated image subsets as tracking evidence.
+### 1. Continuous webcam stream
 
-## Quick start for beginners
+Use this mode when you want the system to keep running from a webcam.
+
+The webcam mode:
+
+- opens a live tracking preview,
+- keeps running until the preview window is closed or stopped,
+- saves timestamped output segments,
+- can save a new video/log file every 10 minutes,
+- can use shorter segments, such as 1 minute, for testing.
+
+Example output folder:
+
+```text
+outputs/webcam_sessions/session_YYYYMMDD_HHMMSS/
+```
+
+### 2. MOT17 or video file demo
+
+Use this mode when you want to choose a local video file and run tracking on it.
+
+The file demo mode:
+
+- lets the user select an MP4 file,
+- runs person detection and tracking,
+- saves an annotated video,
+- saves a CSV tracking log,
+- saves a JSON summary.
+
+## Important scope note
+
+This project tracks people as people. It does not need to detect walking sticks as separate objects to track a person.
+
+A person using one stick, two sticks, crutches, or poles should still be tracked if the person detector sees the body clearly enough.
+
+This project does not claim perfect detection. False detections can happen, especially with posters, mannequins, reflections, or background objects that look like people. The default confidence value was increased to reduce this problem.
+
+## Recommended settings
+
+```text
+Model: yolov8n.pt
+Tracker: botsort.yaml
+Confidence: 0.50
+Confirmed frames: 3
+```
+
+These settings give a good balance between speed and detection quality for a laptop demo.
+
+## Install and run - quick version
 
 ### Step 1 - Install Python
 
-Install Python 3.10, 3.11, or 3.12 from the official Python website.
+Install Python 3.10, 3.11, or 3.12.
 
-During installation on Windows, tick:
+On Windows, tick this option during installation:
 
 ```text
 Add Python to PATH
 ```
 
-### Step 2 - Download this project
+### Step 2 - Download the project
 
-If you use GitHub:
+Clone with Git:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ties4911_mini_project.git
-cd visiontrack-modern-human-tracking
+git clone https://github.com/jahid1081/ties4911_mini_project.git
+cd ties4911_mini_project
 ```
 
-If you do not use GitHub, click the green **Code** button on GitHub, choose **Download ZIP**, unzip it, and open the folder.
+Or download without Git:
+
+1. Click the green **Code** button on this GitHub page.
+2. Click **Download ZIP**.
+3. Unzip the folder.
+4. Open a terminal or PowerShell inside the folder.
 
 ### Step 3 - Create a virtual environment
 
@@ -65,77 +117,108 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Step 5 - Open the GUI
+### Step 5 - Open the desktop GUI
 
 ```bash
 python src/desktop_gui.py
 ```
 
-## Demo mode 1 - Continuous webcam stream
+## Detailed setup guides
 
-In the GUI:
+Use the guide for your operating system:
 
-1. Open the **Webcam Stream** tab.
-2. Use webcam index `0`.
-3. Use segment length `1` minute for testing.
-4. Use segment length `10` minutes for the real demo.
-5. Click **Start Webcam Stream**.
-6. Close the tracking preview window or press `q` to stop.
+- [Windows setup guide](docs/INSTALL_WINDOWS.md)
+- [macOS setup guide](docs/INSTALL_MACOS.md)
+- [Linux setup guide](docs/INSTALL_LINUX.md)
 
-Outputs are saved in:
+Other useful guides:
 
-```text
-outputs/webcam_sessions/
+- [User guide](docs/USER_GUIDE.md)
+- [MOT17 guide](docs/MOT17_GUIDE.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
+- [Project scope](docs/PROJECT_SCOPE.md)
+
+## How to use the GUI
+
+Run:
+
+```bash
+python src/desktop_gui.py
 ```
 
-Each session has timestamped segment files.
+The GUI has four tabs:
 
-## Demo mode 2 - MOT17 or MP4 file
+```text
+Home
+Webcam Stream
+MOT17 / Video File
+Help
+```
 
-In the GUI:
+### Webcam stream tab
 
-1. Open the **MOT17 / Video File** tab.
-2. Choose an MP4 video file.
-3. Set output name.
+1. Set webcam index to `0`.
+2. Set segment length to `1` minute for a quick test.
+3. Use `10` minutes for the full demo.
+4. Click **Start Webcam Stream**.
+5. Press `q`, close the preview window, or click **Stop Webcam Stream** to stop.
+
+### MOT17 / video file tab
+
+1. Click **Choose video**.
+2. Select an MP4 file.
+3. Set an output name.
 4. Click **Run File Demo**.
-
-Outputs are saved in:
-
-```text
-outputs/videos/
-outputs/logs/
-```
 
 ## Command-line examples
 
-Webcam smoke test:
+You can also run the project without the GUI.
+
+### Webcam smoke test
 
 ```bash
 python src/track_people.py --source 0 --display --output-name webcam_smoke --max-frames 200
 ```
 
-MOT17 video test:
+### MOT17 or MP4 file test
 
 ```bash
 python src/track_people.py --source data/sample_videos/MOT17-02-DPM_300frames.mp4 --display --output-name mot17_demo --max-frames 300
 ```
 
-Generate charts:
+### Generate charts from a tracking log
 
 ```bash
 python scripts/summarize_tracking_log.py --csv outputs/logs/mot17_demo_tracking_log.csv --output-dir outputs/logs
 ```
 
-## Recommended default settings
+## MOT17 dataset note
 
-```text
-Model: yolov8n.pt
-Tracker: botsort.yaml
-Confidence: 0.50
-Confirmed frames: 3
+The MOT17 dataset is not included in this repository because datasets and videos can be large.
+
+To use MOT17:
+
+1. Download MOT17 from the official MOTChallenge website.
+2. Place it under `data/MOT17/`.
+3. Convert one sequence to MP4 with the provided script.
+
+Example:
+
+```bash
+python scripts/mot17_sequence_to_video.py --sequence-dir data/MOT17/train/MOT17-02-DPM --output data/sample_videos/MOT17-02-DPM_300frames.mp4 --max-frames 300
 ```
 
-These settings are chosen because a lower confidence value produced persistent false person tracks in MOT17 testing.
+## Output files
+
+VisionTrack saves outputs under:
+
+```text
+outputs/videos/
+outputs/logs/
+outputs/webcam_sessions/
+```
+
+These folders are ignored by Git so that large generated files are not uploaded by mistake.
 
 ## Folder structure
 
@@ -160,13 +243,24 @@ docs/
   MOT17_GUIDE.md
   TROUBLESHOOTING.md
   PROJECT_SCOPE.md
+  GITHUB_UPLOAD_GUIDE.md
+  AI_USAGE_STATEMENT.md
 
-outputs/
-  videos/
-  logs/
-  webcam_sessions/
+examples/
+  example_commands.md
 ```
+
+## Privacy and responsible use
+
+The webcam mode records video and tracking logs locally. Use it only in appropriate settings and respect privacy rules, consent requirements, and local laws.
+
+## Known limitations
+
+- Pretrained YOLO models can produce false person detections.
+- Small, far-away, or heavily occluded people may be missed.
+- Tracking IDs can change when people are occluded or leave and re-enter the scene.
+- The app is designed for educational and demo use, not production surveillance.
 
 ## License
 
-MIT License.
+This project is released under the MIT License. See [LICENSE](LICENSE).
